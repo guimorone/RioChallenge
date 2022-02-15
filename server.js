@@ -17,8 +17,10 @@ app.get('/', (req, res) => {
         apiKey: apiKey
     });
 });
+// Se tiver alguma porta específica
 let port = process.env.PORT;
 if (port == null || port == '') {
     port = '3000';
 }
+// Botei parseInt porque nesse caso vou usar 3000 mesmo
 app.listen(parseInt(port), () => console_1.default.log('Server is running!'));
