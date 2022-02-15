@@ -1,4 +1,36 @@
 #map {
+    margin-top: 10%;
     height: 600px;
     width: 50%;
+}
+
+/* Botões de tráfego */
+
+/* Design dos botões pego da internet, segue link abaixo */
+/* https://stackoverflow.com/questions/20033343/google-maps-custom-button-with-standard-style */
+.custom-map-control-button {
+    margin-top: 1.8%;
+    cursor: pointer;
+    direction: ltr;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    color: rgb(0, 0, 0);
+    font-family: "Roboto", Arial, sans-serif;
+    font-size: 20px;
+    background-color: rgb(255, 255, 255);
+    padding: 1px 6px;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.14902);
+    -webkit-box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
+    min-width: 28px;
+    font-weight: 500;
+}
+
+.custom-map-control-button:hover {
+    font-weight: bold;
 }
