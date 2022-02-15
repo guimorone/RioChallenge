@@ -20,11 +20,18 @@
             transitButton.textContent = "Show public transit/traffic";
             transitButton.classList.add("custom-map-control-button");
             map.controls[google.maps.ControlPosition.TOP_CENTER].push(transitButton);
+            const transitLayer = new google.maps.TransitLayer();
+            const trafficLayer = new google.maps.TrafficLayer();
             transitButton.addEventListener('click', _ => {
-                const transitLayer = new google.maps.TransitLayer();
-                const trafficLayer = new google.maps.TrafficLayer();
-                transitLayer.setMap(map);
-                trafficLayer.setMap(map);
+                // toggle
+                if(transitLayer.getMap() && trafficLayer.getMap()) {
+                    transitLayer.setMap(null);
+                    trafficLayer.setMap(null);
+                } else {
+                    transitLayer.setMap(map);
+                    trafficLayer.setMap(map);
+                }
+                
             });
             const marker = new google.maps.Marker({
                 position: posicao,
