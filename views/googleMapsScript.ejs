@@ -6,15 +6,25 @@
             timeout: 5000,
             maximumAge: 0
         }
+        // Mostrar o as rotas dos transportes públicos e o tráfego
+        const transitButton = document.createElement("button");
         navigator.geolocation.getCurrentPosition(pos => {
-            const crd = pos.coords;
             const posicao = { 
-                lat: crd.latitude, 
-                lng: crd.longitude
+                lat: pos.coords.latitude, 
+                lng: pos.coords.longitude
             };
             const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 4,
+                zoom: 15,
                 center: posicao,
+            });
+            transitButton.textContent = "Show public transit/traffic";
+            transitButton.classList.add("custom-map-control-button");
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(transitButton);
+            transitButton.addEventListener('click', _ => {
+                const transitLayer = new google.maps.TransitLayer();
+                const trafficLayer = new google.maps.TrafficLayer();
+                transitLayer.setMap(map);
+                trafficLayer.setMap(map);
             });
             const marker = new google.maps.Marker({
                 position: posicao,
