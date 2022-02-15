@@ -14,12 +14,13 @@
                 lat: pos.coords.latitude, 
                 lng: pos.coords.longitude
             };
+            console.log('Precisão: ' + Math.round(pos.coords.accuracy) + ' metros'); // Poderia estar melhor...
             const map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 15,
                 center: posicao,
             });
             
-            transitButton.textContent = "Linhas de transporte"; // Metrô e trem
+            transitButton.textContent = "Linhas de transporte"; // Apenas metrô e trem
             transitButton.classList.add("custom-map-control-button");
             map.controls[google.maps.ControlPosition.TOP_CENTER].push(transitButton);
 

@@ -17,4 +17,11 @@ app.get('/', (req, res) => {
     })
 })
 
-app.listen(3000, () => console.log('Server is running!'))
+// Se tiver alguma porta específica
+let port = process.env.PORT
+if(port == null || port == '') {
+  port = '3000'
+}
+
+// Botei parseInt porque nesse caso vou usar 3000 mesmo
+app.listen(parseInt(port), () => console.log('Server is running!'))

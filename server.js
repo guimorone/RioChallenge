@@ -17,4 +17,8 @@ app.get('/', (req, res) => {
         apiKey: apiKey
     });
 });
-app.listen(3000, () => console_1.default.log('Server is running!'));
+let port = process.env.PORT;
+if (port == null || port == '') {
+    port = '3000';
+}
+app.listen(parseInt(port), () => console_1.default.log('Server is running!'));

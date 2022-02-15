@@ -1,3 +1,13 @@
+body {
+    background-color: #e3f2fd;
+}
+
+/* Logo rio */
+img {
+    width: 70%;
+    height: 70%;
+}
+
 #map {
     margin-top: 2%;
     margin-right: 2%;
