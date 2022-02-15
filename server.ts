@@ -2,6 +2,20 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import 'dotenv/config'
 import console from 'console'
+import axios from 'axios'
+
+const url: string = 'https://api.mobilidade.rio/qrcode/?format=json'
+
+async function teste() {
+  try {
+    const response = await axios.get(url)
+    console.log(response.data.results)
+  } catch (exception) {
+      process.stderr.write(`ERROR received from ${url}: ${exception}\n`)
+  }
+}
+
+teste()
 
 const app = express()
 
