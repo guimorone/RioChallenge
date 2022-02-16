@@ -16,12 +16,12 @@ exports.parametersTrip = exports.parametersCode = exports.trip = exports.qrCode 
 const axios_1 = __importDefault(require("axios"));
 // Endpoints
 // Pontos já cadastrados no app com QRCode
-function qrCode() {
+function qrCode(code) {
     return __awaiter(this, void 0, void 0, function* () {
-        const url = 'https://api.mobilidade.rio/qrcode/?format=json';
+        const url = 'https://api.mobilidade.rio/qrcode/?code=' + code + '&format=json';
         try {
             const response = yield axios_1.default.get(url);
-            console.log(response.data.results);
+            return response.data.results;
         }
         catch (exception) {
             process.stderr.write(`ERROR received from ${url}: ${exception}\n`);
@@ -35,7 +35,7 @@ function trip() {
         const url = 'https://api.mobilidade.rio/trip/?format=json';
         try {
             const response = yield axios_1.default.get(url);
-            console.log(response.data.results);
+            return response.data.results;
         }
         catch (exception) {
             process.stderr.write(`ERROR received from ${url}: ${exception}\n`);
@@ -47,10 +47,10 @@ exports.trip = trip;
 // Filtra itinerários que PASSAM num ponto a partir do seu QRCode (numero da PARADA)
 function parametersCode(code) {
     return __awaiter(this, void 0, void 0, function* () {
-        const url = ' https://api.mobilidade.rio/trip/?code=' + code;
+        const url = ' https://api.mobilidade.rio/trip/?code=' + code + '&format=json';
         try {
             const response = yield axios_1.default.get(url);
-            console.log(response.data.results);
+            return response.data.results;
         }
         catch (exception) {
             process.stderr.write(`ERROR received from ${url}: ${exception}\n`);
@@ -61,10 +61,10 @@ exports.parametersCode = parametersCode;
 // Filtra paradas de um itinerário específico (numero do onibus, metro etc)
 function parametersTrip(trip_id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const url = ' https://api.mobilidade.rio/sequence/?trip_id=' + trip_id;
+        const url = ' https://api.mobilidade.rio/sequence/?trip_id=' + trip_id + '&format=json';
         try {
             const response = yield axios_1.default.get(url);
-            console.log(response.data.results);
+            return response.data.results;
         }
         catch (exception) {
             process.stderr.write(`ERROR received from ${url}: ${exception}\n`);

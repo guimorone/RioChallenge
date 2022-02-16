@@ -11,10 +11,24 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
 
+let context = {
+  apiKey: apiKey,
+  nome: ''
+}
+
 app.get('/', (req, res) => {
-	res.render('index', {
-        apiKey: apiKey
-    })
+  res.render('index', context)
+})
+
+app.get('/ponto/:code', (req, res) => {
+  async function getPonto() {
+    const ponto = await qrCode(req.params.code)
+    context.nome = ponto[0].stop.name
+    res.render('index', context)
+    // Retirar atualizações feitas no context
+    context.nome = ''
+  }
+  getPonto()
 })
 
 // Se tiver alguma porta específica
