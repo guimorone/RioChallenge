@@ -39,8 +39,7 @@ let context = {
     numInti: '',
     tipoInti: '',
     sentidoInti: '',
-    paradas: [{}],
-    showInputTripId: false
+    paradas: [{}]
 };
 app.get('/', (req, res) => {
     res.render('index', context);
@@ -51,7 +50,12 @@ app.get('/', (req, res) => {
     context.posi = {};
     context.modo = '';
     context.intinerarios = [{}];
-    context.showInputTripId = false;
+    // Intinerários
+    context.nomeInti = '';
+    context.numInti = '';
+    context.tipoInti = '';
+    context.sentidoInti = '';
+    context.paradas = [{}];
 });
 app.get('/ponto/:code', (req, res) => {
     function getPonto() {
@@ -88,10 +92,6 @@ app.get('/ponto/:code', (req, res) => {
         });
         res.redirect('/');
     });
-});
-app.get('/inti', (req, res) => {
-    context.showInputTripId = true;
-    res.redirect('/');
 });
 app.get('/inti/:typeId', (req, res) => {
     function getParadasIntinerario() {

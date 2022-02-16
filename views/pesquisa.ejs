@@ -1,27 +1,24 @@
 <div class="p-5 flex-fill">
-    <div class="w-75 form-row">
-        <div class="col-auto my-1">
-            <label for="codigoPonto" class="me-5 text-primary"><i class="p-1 fa-solid fa-circle-arrow-right"></i>Qual ponto você quer ter mais informações?</label>
-            <a class="me-5 btn btn-outline-primary" href="#" role="button" id="enviar">Procurar</a>
-        </div>
-        <div class="col-auto my-3">
-            <input type="search" class="text-center form-control" id="codigoPonto" placeholder="Informe o Código do Ponto Ex.: AA99" name="code">
-        </div>
-        <div class="col-auto my-3">
-            <button type="button" class="w-100 btn btn-primary btn-lg"><i class="p-1 fa-solid fa-qrcode"></i>Usar QRCode</button>
-        </div>
-    </div>
-    <% if(showInputTripId) { %> 
-        <%- include("tripId") -%>
-    <% } %> 
+    <%- include("qrCodeSearch") -%>
+    <%- include("tripId") -%>
     <script type="text/javascript">
-        const botao = document.getElementById('enviar');
-        botao.onclick = _ => {
-            const input = document.getElementById('codigoPonto').value;
-            if(input != '') {
-                botao.href = '/ponto/' + input; 
+        const botao1 = document.getElementById('enviar');
+        botao1.onclick = _ => {
+            const input1 = document.getElementById('codigoPonto').value;
+            if(input1 != '') {
+                botao1.href = '/ponto/' + input1; 
             } else {
-                botao.href = '#';
+                botao1.href = '#';
+            }
+        };
+
+        const botao2 = document.getElementById('enviarInti');
+        botao2.onclick = _ => {
+            const input2 = document.getElementById('typeIdInti').value;
+            if(input2 != '') {
+                botao2.href = '/inti/' + input2; 
+            } else {
+                botao2.href = '#';
             }
         };
     </script>
