@@ -18,7 +18,6 @@
         } else {
             console.log('Failed');
         }
-        
         return posicao;
     }
     
@@ -27,6 +26,7 @@
         const transitButton = document.createElement('button');
         const trafficButton = document.createElement('button');
         let posicao = <%- JSON.stringify(posi); %>
+        // Se não tiver recebido nada porque acabou de entrar na página
         if(!('lat' in posicao) || !('lng' in posicao)) posicao = getLocation();
         const map = new google.maps.Map(document.getElementById('map'), {
             zoom: 16,

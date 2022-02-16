@@ -1,1 +1,12 @@
-<p class="h2"> <%= nome %> </p>
+<% if(nome) {%> 
+    <div class="w-75">
+        <p class="p-3 h2 text-primary centerText"><i class="fa-solid fa-location-dot"></i> <b>Você está aqui:</b> <%= nome %> </p>
+        <p class="p-3 h2 text-info centerText"> <%= modo %> </p>
+        <% intinerarios.forEach((element, index) => { %>
+            <% if(index) {%>
+                <!-- Por algum motivo o primeiro ta saindo bugado (undefined) -->
+                <p class="p-2 h2 text-secondary centerText"><b> <%= element.num %> </b> <%= element.vista + ' (Sentido ' + element.sentido + ')' %> </p>
+            <% } %>
+        <% }); %> 
+    </div>
+<% } %> 

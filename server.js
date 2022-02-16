@@ -25,13 +25,17 @@ app.use(express_1.default.static('public'));
 let context = {
     apiKey: apiKey,
     nome: '',
-    posi: {}
+    posi: {},
+    modo: '',
+    intinerarios: [{}]
 };
 app.get('/', (req, res) => {
     res.render('index', context);
     // Retirar atualizações feitas no context
     context.nome = '';
     context.posi = {};
+    context.modo = '';
+    context.intinerarios = [{}];
 });
 app.get('/ponto/:code', (req, res) => {
     function getPonto() {
@@ -40,12 +44,29 @@ app.get('/ponto/:code', (req, res) => {
             return ponto;
         });
     }
+    function getIntinerarios() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const int = yield (0, requisitions_1.parametersCode)(req.params.code);
+            return int;
+        });
+    }
     getPonto().then(response => {
         context.nome = response[0].stop.name;
         context.posi = {
             lat: response[0].stop.latitude,
             lng: response[0].stop.longitude
         };
+        context.modo = response[0].stop.mode.name;
+    });
+    getIntinerarios().then(response => {
+        // tive q botar isso no forEach se n dava erro
+        response.forEach((element) => {
+            context.intinerarios.push({
+                num: element.route.short_name,
+                vista: element.route.vista,
+                sentido: element.headsign
+            });
+        });
         res.redirect('/');
     });
 });
