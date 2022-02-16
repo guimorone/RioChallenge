@@ -11,6 +11,9 @@
             <button type="button" class="w-100 btn btn-primary btn-lg"><i class="p-1 fa-solid fa-qrcode"></i>Usar QRCode</button>
         </div>
     </div>
+    <% if(showInputTripId) { %> 
+        <%- include("tripId") -%>
+    <% } %> 
     <script type="text/javascript">
         const botao = document.getElementById('enviar');
         botao.onclick = _ => {

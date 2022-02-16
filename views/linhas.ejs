@@ -1,11 +1,10 @@
-<% if(nome) {%> 
+<% if(show) {%> 
     <div class="w-75">
-        <p class="p-3 h2 text-primary centerText"><i class="fa-solid fa-location-dot"></i> <b>Você está aqui:</b> <%= nome %> </p>
         <nav class="p-2 navbar navbar-expand-lg navbar-light">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link h3 text-primary" href="#" id="linhaServ"> <i class="fa-solid fa-bars"></i> Linhas e Serviços</a>
+                        <a class="nav-link h3" href="#" id="linhaServ"> <i class="fa-solid fa-bars"></i> Linhas e Serviços</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link h3 disabled" href="#">/</a>
@@ -16,21 +15,51 @@
                 </ul>
             </div>
         </nav>
-        <p class="p-3 h2 text-info centerText"> <%= modo %> </p>
-        <% intinerarios.forEach((element, index) => { %>
-            <% if(index) {%>
-                <!-- Por algum motivo o primeiro ta saindo bugado (undefined) -->
-                <p class="p-2 h2 text-secondary centerText"><b> <%= element.num %> </b> <%= element.vista + ' (Sentido ' + element.sentido + ')' %> </p>
+        <% if(ls) {%> 
+                <div id="linhaServDiv">
+                    <p class="p-3 h2 text-primary centerText"><i class="fa-solid fa-location-dot"></i> <b>Você está aqui: </b> <b class="m-1 text-light bg-primary bg-gradient"> <%= qrCode %> </b> <%= nome %> </p>
+                    <p class="p-3 h2 text-info centerText"> <%= modo %> </p>
+                    <% intinerarios.forEach((element, index) => { %>
+                        <% if(index) {%>
+                            <!-- Por algum motivo o primeiro ta saindo bugado (undefined) -->
+                            <p class="p-2 h2 text-secondary centerText"><b> <%= element.num %> </b> <%= element.vista + ' (Sentido ' + element.sentido + ')' %> </p>
+                        <% } %>
+                    <% }); %> 
+                </div>
             <% } %>
-        <% }); %> 
+        <% if(!ls) { %> 
+            <div id="intiDiv">
+                <p class="p-3 h2 text-primary centerText"> <b class="m-2 text-light bg-primary bg-gradient"> <%= numInti %> </b> <%= nomeInti %> </p>
+                <p class="p-3 h2 text-info centerText"> <%= tipoInti %> </p>
+                <p class="p-1 h3 text-info centerText"> <%= 'Sentido ' + sentidoInti %> </p>
+                <% paradas.forEach((element, index) => { %>
+                    <% if(index) {%>
+                        <p class="p-2 h2 text-secondary centerText"><b> Parada <%= ' ' + (index).toString() + ': ' %> </b> <%= element.nomeParada %> </p>
+                        <% } %>
+                    <% }); %> 
+            </div>
+        <% } %>
     </div>
     <script>
         const linha = document.getElementById('linhaServ');
         const inti = document.getElementById('inti');
+        const ls = <%- JSON.stringify(ls); %>;
+
+        if(ls) {
+            linha.classList.add('text-primary');
+        } else {
+            inti.classList.add('text-primary');
+        }
 
         function handleClick() {
             linha.classList.toggle('text-primary');
             inti.classList.toggle('text-primary');
+
+            if(linha.classList.contains('text-primary')) {
+                linha.href = '/'; 
+            } else if(inti.classList.contains('text-primary')) {
+                inti.href = '/inti';
+            }
         }
 
         linha.onclick = handleClick

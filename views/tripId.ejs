@@ -1,0 +1,20 @@
+<div class="w-75 form-row">
+    <div class="col-auto my-1">
+        <label for="codigoPonto" class="me-5 text-primary"><i class="p-1 fa-solid fa-circle-arrow-right"></i>Qual viagem você quer ter mais informações?</label>
+        <a class="me-5 btn btn-outline-primary" href="#" role="button" id="enviarInti">Procurar</a>
+    </div>
+    <div class="col-auto my-3">
+        <input type="search" class="text-center form-control" id="typeIdInti" placeholder="Informe o id da viagem" name="typeId">
+    </div>
+    <script type="text/javascript">
+        const botao = document.getElementById('enviarInti');
+        botao.onclick = _ => {
+            const input = document.getElementById('typeIdInti').value;
+            if(input != '') {
+                botao.href = '/inti/' + input; 
+            } else {
+                botao.href = '#';
+            }
+        };
+    </script>
+</div>

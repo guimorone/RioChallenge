@@ -11,21 +11,37 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
 
+// Especificações passadas para o front
 let context = {
   apiKey: apiKey,
+  show: false,
+  // Ponto específico abaixo
+  ls: true,
+  qrCode: '',
   nome: '',
   posi: {},
   modo: '',
-  intinerarios: [{}]
+  intinerarios: [{}],
+  // FIM DE PONTO ESPECÍFICO
+  // Intinerário específico abaixo
+  nomeInti: '',
+  numInti: '',
+  tipoInti: '',
+  sentidoInti: '',
+  paradas: [{}],
+  showInputTripId: false
 }
 
 app.get('/', (req, res) => {
   res.render('index', context)
   // Retirar atualizações feitas no context
+  context.show = false
+  context.qrCode = ''
   context.nome = ''
   context.posi = {}
   context.modo = ''
   context.intinerarios = [{}]
+  context.showInputTripId = false;
 })
 
 app.get('/ponto/:code', (req, res) => {
@@ -39,6 +55,9 @@ app.get('/ponto/:code', (req, res) => {
   }
 
   getPonto().then(response => {
+    context.show = true
+    context.ls = true
+    context.qrCode = req.params.code
     context.nome = response[0].stop.name
     context.posi = {
       lat: response[0].stop.latitude,
@@ -55,6 +74,38 @@ app.get('/ponto/:code', (req, res) => {
         sentido: element.headsign
       })
     });
+
+    res.redirect('/')
+  })
+})
+
+app.get('/inti', (req, res) => {
+  context.showInputTripId = true
+  res.redirect('/')
+})
+
+app.get('/inti/:typeId', (req, res) => {
+  async function getParadasIntinerario() {
+    const paradas = await parametersTrip(req.params.typeId)
+    return paradas
+  }
+
+  getParadasIntinerario().then(response => {
+    context.show = true
+    context.ls = false
+    context.nomeInti = response[0].trip.route.vista
+    context.numInti = response[0].trip.route.short_name
+    context.tipoInti = response[0].trip.route.mode.name
+    context.sentidoInti = response[0].trip.headsign
+
+    response.forEach((element: { stop: { name: any; address: any; latitude: any; longitude: any } }) => {
+      context.paradas.push({
+        nomeParada: element.stop.name,
+        endParada: element.stop.address,
+        latParada: element.stop.latitude,
+        lngParada: element.stop.longitude
+      })
+    })
 
     res.redirect('/')
   })
