@@ -2,7 +2,7 @@
     <div class="w-75 form-row">
         <div class="col-auto my-1">
             <label for="codigoPonto" class="me-5 text-primary"><i class="p-1 fa-solid fa-circle-arrow-right"></i>Qual ponto você quer ter mais informações?</label>
-            <a class="me-5 btn btn-outline-primary" href="#" role="button" id="enviar">Enviar</a>
+            <a class="me-5 btn btn-outline-primary" href="#" role="button" id="enviar">Procurar</a>
         </div>
         <div class="col-auto my-3">
             <input type="search" class="text-center form-control" id="codigoPonto" placeholder="Informe o Código do Ponto Ex.: AA99" name="code">
@@ -14,9 +14,7 @@
     <script type="text/javascript">
         const botao = document.getElementById('enviar');
         botao.onclick = _ => {
-            console.log(botao)
             const input = document.getElementById('codigoPonto').value;
-            console.log(input)
             if(input != '') {
                 botao.href = '/ponto/' + input; 
             } else {

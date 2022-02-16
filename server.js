@@ -22,24 +22,32 @@ const apiKey = process.env.API_KEY;
 app.set('view engine', 'ejs');
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.static('public'));
-const initialContext = {
+let context = {
     apiKey: apiKey,
-    nome: ''
+    nome: '',
+    posi: {}
 };
 app.get('/', (req, res) => {
-    res.render('index', initialContext);
+    res.render('index', context);
+    // Retirar atualizações feitas no context
+    context.nome = '';
+    context.posi = {};
 });
 app.get('/ponto/:code', (req, res) => {
     function getPonto() {
         return __awaiter(this, void 0, void 0, function* () {
             const ponto = yield (0, requisitions_1.qrCode)(req.params.code);
-            let context = initialContext;
-            context.nome = ponto[0].stop.name;
-            res.render('index', context);
-            context.nome = '';
+            return ponto;
         });
     }
-    getPonto();
+    getPonto().then(response => {
+        context.nome = response[0].stop.name;
+        context.posi = {
+            lat: response[0].stop.latitude,
+            lng: response[0].stop.longitude
+        };
+        res.redirect('/');
+    });
 });
 // Se tiver alguma porta específica
 let port = process.env.PORT || 3000;

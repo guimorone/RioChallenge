@@ -13,22 +13,30 @@ app.use(express.static('public'))
 
 let context = {
   apiKey: apiKey,
-  nome: ''
+  nome: '',
+  posi: {}
 }
 
 app.get('/', (req, res) => {
   res.render('index', context)
+  // Retirar atualizações feitas no context
+  context.nome = ''
+  context.posi = {}
 })
 
 app.get('/ponto/:code', (req, res) => {
   async function getPonto() {
     const ponto = await qrCode(req.params.code)
-    context.nome = ponto[0].stop.name
-    res.render('index', context)
-    // Retirar atualizações feitas no context
-    context.nome = ''
+    return ponto
   }
-  getPonto()
+  getPonto().then(response => {
+    context.nome = response[0].stop.name
+    context.posi = {
+      lat: response[0].stop.latitude,
+      lng: response[0].stop.longitude
+    }
+    res.redirect('/')
+  })
 })
 
 // Se tiver alguma porta específica
