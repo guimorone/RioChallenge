@@ -12,7 +12,7 @@
 
 ## Ressalvas
 
-#### Não sei exatamente como foi feito o design da página, mas o que está sendo apresentado ai é apenas para teste.
+#### Não sei exatamente como foi feito o design da página de vocês, mas o que está sendo apresentado ai é apenas para teste.
 #### O botão QRCode deixei aparecendo como foi mostrado na especificação do projeto, mas não botei nenhuma funcionalidade nele
 #### A parte de buscar intinerários também só está como template (é para ver tanto o caminho de ida como de volta do intinerário), não conseguia filtrar os intinerários da API
 #### Não consegui fazer a API do google mostrar as rotas quando se pesquisa a viagem pelo id dela, mas elas são disponibilizadas direitinho pelos nomes das paradas, só não apontam no mapa. Porém, da pra ver as linhas de tráfego e transito (metrô e trem) no mapa.
