@@ -1,5 +1,12 @@
 <nav class="navbar navbar-dark" style="background-color: #004A80;">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
       <img src="images/logo-prefeitura-rio-2021.png"  class="d-inline-block align-top" alt="Prefeitura do Rio">
     </a>
+    <div class="w-25 input-group mb-3">
+      <input type="text" class="m-2 form-control" placeholder="Buscar intinerário (código da linha)" aria-label="Recipient's username" aria-describedby="basic-addon2" name="intinerarioCode">
+      <div class="input-group-append">
+        <button class="m-2 btn btn-info" type="button" id="searchIntinerario">Pesquisar</button>
+      </div>
+    </div>
+    <script src="js/searchIntinerario.js"></script>
 </nav>
