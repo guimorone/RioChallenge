@@ -6,7 +6,7 @@ export async function qrCode(code: string) {
     const url: string = 'https://api.mobilidade.rio/qrcode/?code=' + code + '&format=json'
     try {
         const response = await axios.get(url)
-        return response.data.results
+        return response.data
     } catch (exception) {
         process.stderr.write(`ERROR received from ${url}: ${exception}\n`)
     }
@@ -17,7 +17,7 @@ export async function trip() {
     const url: string = 'https://api.mobilidade.rio/trip/?format=json'
     try {
         const response = await axios.get(url)
-        return response.data.results
+        return response.data
     } catch (exception) {
         process.stderr.write(`ERROR received from ${url}: ${exception}\n`)
     }
@@ -29,7 +29,7 @@ export async function parametersCode(code: string) {
     const url: string = ' https://api.mobilidade.rio/trip/?code=' + code + '&format=json'
     try {
         const response = await axios.get(url)
-        return response.data.results
+        return response.data
     } catch (exception) {
         process.stderr.write(`ERROR received from ${url}: ${exception}\n`)
     }
@@ -40,7 +40,7 @@ export async function parametersTrip(trip_id: string) {
     const url: string = ' https://api.mobilidade.rio/sequence/?trip_id=' + trip_id + '&format=json'
     try {
         const response = await axios.get(url)
-        return response.data.results
+        return response.data
     } catch (exception) {
         process.stderr.write(`ERROR received from ${url}: ${exception}\n`)
     }

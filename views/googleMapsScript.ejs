@@ -1,6 +1,5 @@
 <script type="text/javascript">
     function initMap() {
-        // Mostrar o as rotas dos transportes públicos e o tráfego
         const transitButton = document.createElement('button');
         const trafficButton = document.createElement('button');
         let posicao = <%- JSON.stringify(posi); %>
@@ -20,6 +19,9 @@
                         lat: pos.coords.latitude,
                         lng: pos.coords.longitude
                     };
+
+                    // Precisão da localização atual
+                    console.log('Precisão: ', Math.round(pos.coords.accuracy) + ' metros');
                 }
                 
                 const map = new google.maps.Map(document.getElementById('map'), {
@@ -27,10 +29,12 @@
                     center: posicao,
                 });
                 
+                // Botão de trânsito
                 transitButton.textContent = "Linhas de transporte";
                 transitButton.classList.add("custom-map-control-button");
                 map.controls[google.maps.ControlPosition.TOP_CENTER].push(transitButton);
         
+                // Botão de tráfego
                 trafficButton.textContent = "Tráfego";
                 trafficButton.classList.add("custom-map-control-button");
                 map.controls[google.maps.ControlPosition.TOP_CENTER].push(trafficButton);
@@ -38,6 +42,8 @@
                 const transitLayer = new google.maps.TransitLayer();
                 const trafficLayer = new google.maps.TrafficLayer();
         
+                // Toggle
+                // Mostrar as rotas dos transportes públicos e o tráfego
                 transitButton.addEventListener('click', _ => {
                     // toggle
                     if(transitLayer.getMap()) {

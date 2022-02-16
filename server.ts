@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import 'dotenv/config'
 import console from 'console'
-import { qrCode, trip, parametersCode, parametersTrip } from './requisitions'
+import { qrCode, trip, parametersCode, parametersTrip } from './components/requisitions'
 
 const app = express()
 const apiKey = process.env.API_KEY
@@ -52,11 +52,13 @@ app.get('/', (req, res) => {
 app.get('/ponto/:code', (req, res) => {
   async function getPonto() {
     const ponto = await qrCode(req.params.code)
-    return ponto
+    if(!ponto.count) res.status(400).json({error: 'Bad Request! Check your request', request: 'Code ' + req.params.code})
+    return ponto.results
   }
   async function getIntinerarios() {
     const int = await parametersCode(req.params.code)
-    return int
+    if(!int.count) res.status(400).json({error: 'Bad Request! Check your request', request: 'Code ' + req.params.code})
+    return int.results
   }
 
   getPonto().then(response => {
@@ -87,7 +89,8 @@ app.get('/ponto/:code', (req, res) => {
 app.get('/inti/:typeId', (req, res) => {
   async function getParadasIntinerario() {
     const paradas = await parametersTrip(req.params.typeId)
-    return paradas
+    if(!paradas.count) res.status(400).json({error: 'Bad Request! Check your request', request: 'Trip ' + req.params.typeId})
+    return paradas.results
   }
 
   getParadasIntinerario().then(response => {
