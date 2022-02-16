@@ -2,28 +2,14 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import 'dotenv/config'
 import console from 'console'
-import axios from 'axios'
-
-const url: string = 'https://api.mobilidade.rio/qrcode/?format=json'
-
-async function teste() {
-  try {
-    const response = await axios.get(url)
-    console.log(response.data.results)
-  } catch (exception) {
-      process.stderr.write(`ERROR received from ${url}: ${exception}\n`)
-  }
-}
-
-teste()
+import { qrCode, trip, parametersCode, parametersTrip } from './requisitions'
 
 const app = express()
+const apiKey = process.env.API_KEY
 
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
-
-const apiKey = process.env.API_KEY
 
 app.get('/', (req, res) => {
 	res.render('index', {
@@ -32,10 +18,7 @@ app.get('/', (req, res) => {
 })
 
 // Se tiver alguma porta específica
-let port = process.env.PORT
-if(port == null || port == '') {
-  port = '3000'
-}
+let port = process.env.PORT || 3000
 
 // Botei parseInt porque nesse caso vou usar 3000 mesmo
-app.listen(parseInt(port), () => console.log('Server is running!'))
+app.listen(port, () => console.log('Server is running on port ' + port + '!'))
