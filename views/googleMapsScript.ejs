@@ -1,73 +1,73 @@
 <script>
-    function getLocation() {
-        let posicao = {};
+    function initMap() {
+        // Mostrar o as rotas dos transportes públicos e o tráfego
+        const transitButton = document.createElement('button');
+        const trafficButton = document.createElement('button');
+        let posicao = <%- JSON.stringify(posi); %>
+
+        // Get location
         const options = {
             enableHighAccuracy: true,
             timeout: 5000,
             maximumAge: 0
         };
+
+        // Não tava funcionando fazer isso fora como função externa
         if(navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(pos => {
-                posicao = { 
-                    lat: pos.coords.latitude,
-                    lng: pos.coords.longitude
-                };
+                if(!('lat' in posicao) || !('lng' in posicao)) {
+                    posicao = { 
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude
+                    };
+                }
+                
+                const map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 16,
+                    center: posicao,
+                });
+                
+                transitButton.textContent = "Linhas de transporte";
+                transitButton.classList.add("custom-map-control-button");
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(transitButton);
+        
+                trafficButton.textContent = "Tráfego";
+                trafficButton.classList.add("custom-map-control-button");
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(trafficButton);
+        
+                const transitLayer = new google.maps.TransitLayer();
+                const trafficLayer = new google.maps.TrafficLayer();
+        
+                transitButton.addEventListener('click', _ => {
+                    // toggle
+                    if(transitLayer.getMap()) {
+                        transitLayer.setMap(null);
+                    } else {
+                        transitLayer.setMap(map);
+                    }
+                    
+                });
+        
+                trafficButton.addEventListener('click', _ => {
+                    // toggle
+                    if(trafficLayer.getMap()) {
+                        trafficLayer.setMap(null);
+                    } else {
+                        trafficLayer.setMap(map);
+                    }
+                });
+        
+                // Marcador "você está aqui"
+                const marker = new google.maps.Marker({
+                    position: posicao,
+                    map,
+                    title: 'Você está aqui!'
+                });
             }, 
             err => alert(err + '\nPlease enable your GPS position feature.'), 
             options);
         } else {
             console.log('Failed');
         }
-        return posicao;
-    }
-    
-    function initMap() {
-        // Mostrar o as rotas dos transportes públicos e o tráfego
-        const transitButton = document.createElement('button');
-        const trafficButton = document.createElement('button');
-        let posicao = <%- JSON.stringify(posi); %>
-        // Se não tiver recebido nada porque acabou de entrar na página
-        if(!('lat' in posicao) || !('lng' in posicao)) posicao = getLocation();
-        const map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 16,
-            center: posicao,
-        });
-        
-        transitButton.textContent = "Linhas de transporte";
-        transitButton.classList.add("custom-map-control-button");
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(transitButton);
-
-        trafficButton.textContent = "Tráfego";
-        trafficButton.classList.add("custom-map-control-button");
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(trafficButton);
-
-        const transitLayer = new google.maps.TransitLayer();
-        const trafficLayer = new google.maps.TrafficLayer();
-
-        transitButton.addEventListener('click', _ => {
-            // toggle
-            if(transitLayer.getMap()) {
-                transitLayer.setMap(null);
-            } else {
-                transitLayer.setMap(map);
-            }
-            
-        });
-
-        trafficButton.addEventListener('click', _ => {
-            // toggle
-            if(trafficLayer.getMap()) {
-                trafficLayer.setMap(null);
-            } else {
-                trafficLayer.setMap(map);
-            }
-        });
-
-        // Marcador "você está aqui"
-        const marker = new google.maps.Marker({
-            position: posicao,
-            map,
-            title: 'Você está aqui!'
-        });
     }
 </script>
